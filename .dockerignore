@@ -1,0 +1,19 @@
+# Todo lo que no hace falta para construir la imagen queda fuera del contexto de Docker.
+.git
+.github
+.vs
+.vscode
+.idea
+**/bin
+**/obj
+**/TestResults
+coverage
+tests
+docs
+*.md
+*.db
+*.db-shm
+*.db-wal
+.env
+Dockerfile
+docker-compose.yml
