@@ -1,0 +1,26 @@
+# Compilación de .NET
+bin/
+obj/
+*.user
+.vs/
+.vscode/
+.idea/
+
+# Resultados de pruebas y cobertura
+TestResults/
+coverage/
+coverage.*.xml
+coverage.json
+*.trx
+
+# Base de datos local (SQLite)
+*.db
+*.db-shm
+*.db-wal
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Variables de entorno locales
+.env

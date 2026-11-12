@@ -1,0 +1,5 @@
+# Finales de línea uniformes (LF) para todo el equipo, sin importar el sistema operativo.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.db binary
