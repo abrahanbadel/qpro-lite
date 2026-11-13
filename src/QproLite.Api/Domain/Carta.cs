@@ -7,37 +7,16 @@ public record CategoriaDeCarta(string Nombre, IReadOnlyList<ProductoDeCarta> Pro
 public static class Carta
 {
     /// <summary>Organiza los productos en las categorías que ve el comensal.</summary>
-    public static IReadOnlyList<CategoriaDeCarta> Organizar(IEnumerable<Producto> productos)
-    {
-        var lista = productos.ToList();
-        var nombresDeCategoria = new List<string>();
-        foreach (var producto in lista)
-        {
-            if (!nombresDeCategoria.Contains(producto.Categoria))
-            {
-                nombresDeCategoria.Add(producto.Categoria);
-            }
-        }
+    public static IReadOnlyList<CategoriaDeCarta> Organizar(IEnumerable<Producto> productos) =>
+        productos
+            .GroupBy(producto => producto.Categoria)
+            .OrderBy(categoria => categoria.Key, StringComparer.CurrentCulture)
+            .Select(categoria => new CategoriaDeCarta(categoria.Key, ProductosOrdenados(categoria)))
+            .ToList();
 
-        nombresDeCategoria.Sort(StringComparer.CurrentCulture);
-
-        var carta = new List<CategoriaDeCarta>();
-        foreach (var nombre in nombresDeCategoria)
-        {
-            var productosDeLaCategoria = new List<ProductoDeCarta>();
-            foreach (var producto in lista)
-            {
-                if (producto.Categoria == nombre)
-                {
-                    productosDeLaCategoria.Add(
-                        new ProductoDeCarta(producto.Id, producto.Nombre, producto.Precio, !producto.Disponible));
-                }
-            }
-
-            productosDeLaCategoria.Sort((a, b) => string.Compare(a.Nombre, b.Nombre, StringComparison.CurrentCulture));
-            carta.Add(new CategoriaDeCarta(nombre, productosDeLaCategoria));
-        }
-
-        return carta;
-    }
+    private static List<ProductoDeCarta> ProductosOrdenados(IEnumerable<Producto> productos) =>
+        productos
+            .OrderBy(producto => producto.Nombre, StringComparer.CurrentCulture)
+            .Select(producto => new ProductoDeCarta(producto.Id, producto.Nombre, producto.Precio, !producto.Disponible))
+            .ToList();
 }
