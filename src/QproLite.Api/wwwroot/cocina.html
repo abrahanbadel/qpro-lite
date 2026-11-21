@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cocina · QPro Lite</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Inicio</a>
+    <h1>Cocina</h1>
+    <p>Comandas sin entregar, de la más antigua a la más reciente.</p>
+  </header>
+
+  <main>
+    <div id="aviso" class="aviso" role="status"></div>
+    <table>
+      <thead>
+        <tr><th>Pedido</th><th>Mesa</th><th>Productos</th><th>Estado</th><th></th></tr>
+      </thead>
+      <tbody id="comandas"></tbody>
+    </table>
+  </main>
+
+  <footer id="pie"></footer>
+  <script src="comun.js"></script>
+  <script src="cocina.js"></script>
+</body>
+</html>
