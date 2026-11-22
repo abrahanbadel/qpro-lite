@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    image: qpro-lite:local
+    container_name: qpro-lite
+    ports:
+      - "8080:8080"
+    volumes:
+      # La base de datos SQLite vive en un volumen para que los datos sobrevivan al contenedor.
+      - qpro-datos:/datos
+    restart: unless-stopped
+
+volumes:
+  qpro-datos:

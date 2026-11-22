@@ -27,4 +27,7 @@ public class PedidoItem
     public string NombreProducto { get; set; } = "";
     public int Cantidad { get; set; }
     public decimal PrecioUnitario { get; set; }
+
+    /// <summary>Valor del ítem: precio unitario por cantidad. No se guarda en la base de datos.</summary>
+    public decimal Subtotal => PrecioUnitario * Cantidad;
 }
