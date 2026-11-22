@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Caja · QPro Lite</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Inicio</a>
+    <h1>Caja</h1>
+    <p>Cuenta de la mesa con propina sugerida del 10 %.</p>
+  </header>
+
+  <main>
+    <div class="barra">
+      <label>Mesa
+        <select id="mesa"></select>
+      </label>
+      <label><input type="checkbox" id="propina" checked> Incluir propina</label>
+    </div>
+    <div id="aviso" class="aviso" role="status"></div>
+    <table>
+      <thead><tr><th>Pedido</th><th>Estado</th><th class="num">Valor</th></tr></thead>
+      <tbody id="pedidos"></tbody>
+      <tfoot>
+        <tr><td colspan="2">Subtotal</td><td class="num" id="subtotal"></td></tr>
+        <tr><td colspan="2">Propina sugerida</td><td class="num" id="propina-valor"></td></tr>
+        <tr><td colspan="2" class="total">Total</td><td class="num total" id="total"></td></tr>
+      </tfoot>
+    </table>
+    <div class="barra">
+      <button id="cobrar" type="button">Cobrar</button>
+    </div>
+  </main>
+
+  <footer id="pie"></footer>
+  <script src="comun.js"></script>
+  <script src="caja.js"></script>
+</body>
+</html>
