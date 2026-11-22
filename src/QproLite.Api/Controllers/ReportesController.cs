@@ -7,25 +7,37 @@ using QproLite.Api.Domain;
 namespace QproLite.Api.Controllers;
 
 [ApiController]
+[Route("api/reportes")]
 public class ReportesController(AppDbContext db) : ControllerBase
 {
-    /// <summary>Reporte de ventas de una fecha (AAAA-MM-DD); sin fecha, el del día actual.</summary>
-    [HttpGet("api/reportes/ventas")]
+    private const string FormatoDeFecha = "yyyy-MM-dd";
+
+    /// <summary>Resumen de ventas de un día (por defecto, hoy): total vendido, pedidos y ticket promedio.</summary>
+    [HttpGet("ventas")]
     public async Task<IActionResult> Ventas([FromQuery] string? fecha)
     {
         var dia = DateOnly.FromDateTime(DateTime.UtcNow);
-        if (fecha is not null
-            && !DateOnly.TryParseExact(fecha, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dia))
+        if (!string.IsNullOrWhiteSpace(fecha)
+            && !DateOnly.TryParseExact(fecha, FormatoDeFecha, CultureInfo.InvariantCulture, DateTimeStyles.None, out dia))
         {
             return BadRequest(new { error = "La fecha debe tener el formato AAAA-MM-DD" });
         }
 
-        var pagados = await db.Pedidos
+        var inicio = dia.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
+        var fin = inicio.AddDays(1);
+        var pedidos = await db.Pedidos
             .AsNoTracking()
             .Include(pedido => pedido.Items)
-            .Where(pedido => pedido.Pagado)
+            .Where(pedido => pedido.Pagado && pedido.PagadoEn >= inicio && pedido.PagadoEn < fin)
             .ToListAsync();
 
-        return Ok(ReporteDeVentas.Resumir(pagados, dia));
+        var resumen = ReporteDeVentas.Resumir(pedidos);
+        return Ok(new
+        {
+            Fecha = dia.ToString(FormatoDeFecha, CultureInfo.InvariantCulture),
+            resumen.TotalVendido,
+            resumen.NumeroDePedidos,
+            resumen.TicketPromedio,
+        });
     }
 }

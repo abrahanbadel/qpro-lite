@@ -37,3 +37,35 @@ Facilita: Scrum Master (Albeiro Vergara).
 | Retrospectiva | La cobertura no tiene mínimo. | El pipeline falla si la cobertura de líneas baja del 70 %. |
 | Retrospectiva | Pull requests con descripciones dispares. | Plantilla `.github/pull_request_template.md`. |
 | Retrospectiva | Archivos compartidos sin coordinación. | Se avisa en la daily al tocar `index.html`. |
+
+## Daily scrum (registro breve)
+
+| Día | Integrante | Qué hice | Qué haré | Bloqueos |
+|---|---|---|---|---|
+| 1 | Albeiro | Publiqué el sprint backlog y escribí las pruebas de la cuenta (rojo). | Implementar el cálculo y los endpoints de caja. | Ninguno |
+| 1 | Mateo | Apliqué las mejoras de la retrospectiva al pipeline y agregué la plantilla de pull request. | Empezar HU-05 con TDD. | Ninguno |
+| 1 | Abrahan | Escribí las pruebas del resumen de ventas (rojo) y avisé que tocaré `index.html`. | Implementar el resumen y el endpoint. | Ninguno |
+| 2 | Albeiro | Terminé caja con sus pruebas funcionales; pull request aprobado y fusionado. | Revisar el pull request de Abrahan. | Ninguno |
+| 2 | Mateo | Integré el descuento de existencias al registro de pedidos; pull request fusionado. | Preparar la rama `release/v1.0.0`. | Ninguno |
+| 2 | Abrahan | Terminé el reporte y su pantalla. | Abrir el pull request. | Conflicto en `index.html` con HU-05; se resuelve fusionando `develop` en mi rama. |
+| 3 | Albeiro | Aprobé HU-06 tras la resolución del conflicto. | Registrar la review y la retrospectiva. | Ninguno |
+| 3 | Mateo | Preparé la versión 1.0.0 y probé la imagen Docker. | Publicar la etiqueta `v1.0.0`. | Ninguno |
+| 3 | Abrahan | Resolví el conflicto y ajusté los estilos en la rama de la versión. | Aceptar las historias en la review. | Ninguno |
+
+## Sprint review
+
+- **Incremento entregado:** `v1.0.0`, ejecutándose en un contenedor Docker en `http://localhost:8080`.
+- **Demostración:** se pidió desde la mesa 3 hasta agotar la limonada de coco, que quedó marcada como agotada en
+  la carta; se cobró la cuenta con propina y el reporte del día mostró la venta.
+- **Historias aceptadas:** HU-04, HU-05 y HU-06 (13 de 13 puntos). Las tres acciones de mejora de la retrospectiva
+  del sprint 1 quedaron aplicadas.
+- **Retroalimentación del Product Owner:** el reporte debe trabajar con la hora de Colombia; se revisará después
+  de publicar la versión.
+
+## Sprint retrospective
+
+| Qué salió bien | Qué se puede mejorar | Acción siguiente | Responsable |
+|---|---|---|---|
+| El umbral de cobertura dio confianza para refactorizar. | El conflicto en `index.html` se detectó al abrir el pull request. | Actualizar la rama con `develop` antes de abrir el pull request. | Todos |
+| La plantilla de pull request agilizó las revisiones. | Las fechas del reporte no se probaron con horas cercanas a la medianoche. | Agregar casos de borde de fecha y hora a las pruebas funcionales. | Abrahan |
+| Avisar en la daily sobre archivos compartidos evitó sorpresas. | | | |
