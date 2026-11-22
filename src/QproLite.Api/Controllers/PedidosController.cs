@@ -64,7 +64,15 @@ public class PedidosController(AppDbContext db) : ControllerBase
         }
 
         db.Pedidos.Add(pedido);
-        await db.SaveChangesAsync();
+        try
+        {
+            await db.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return Conflict(new { error = "Las existencias cambiaron. Revisa la carta antes de volver a pedir." });
+        }
+
         return CreatedAtAction(nameof(Obtener), new { id = pedido.Id }, Respuesta(pedido));
     }
 

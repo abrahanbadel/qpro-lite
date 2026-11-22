@@ -32,4 +32,30 @@ public class PersistenciaDePedidosTests
             Assert.Equal(2, item.Cantidad);
         });
     }
+
+    [Fact]
+    public void Un_cambio_de_existencias_obsoleto_no_guarda_el_pedido()
+    {
+        using var api = new ApiFactory();
+        api.ConBaseDeDatos(db =>
+        {
+            var producto = db.Productos.Single(p => p.Nombre == "Mote de queso");
+            api.ConBaseDeDatos(otraSolicitud =>
+            {
+                var actualizado = otraSolicitud.Productos.Single(p => p.Id == producto.Id);
+                Inventario.Reponer(actualizado, 1);
+                otraSolicitud.SaveChanges();
+            });
+
+            Inventario.Descontar(producto, 2);
+            db.Pedidos.Add(new Pedido { Mesa = 3, CreadoEn = DateTime.UtcNow });
+            Assert.Throws<DbUpdateConcurrencyException>(() => db.SaveChanges());
+        });
+
+        api.ConBaseDeDatos(db =>
+        {
+            Assert.Equal(1, db.Productos.Single(p => p.Nombre == "Mote de queso").Stock);
+            Assert.Empty(db.Pedidos);
+        });
+    }
 }
