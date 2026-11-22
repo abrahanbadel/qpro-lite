@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventario · QPro Lite</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Inicio</a>
+    <h1>Inventario</h1>
+    <p>Existencias por producto. Cada pedido las descuenta; al llegar a cero el producto queda agotado.</p>
+  </header>
+
+  <main>
+    <div id="aviso" class="aviso" role="status"></div>
+    <table>
+      <thead>
+        <tr><th>Producto</th><th>Categoría</th><th class="num">Existencias</th><th>Estado</th><th>Reponer</th></tr>
+      </thead>
+      <tbody id="inventario"></tbody>
+    </table>
+  </main>
+
+  <footer id="pie"></footer>
+  <script src="comun.js"></script>
+  <script src="inventario.js"></script>
+</body>
+</html>
