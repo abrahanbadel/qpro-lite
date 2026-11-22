@@ -46,6 +46,14 @@ public class PedidosController(AppDbContext db) : ControllerBase
                 return Conflict(new { error = $"{producto.Nombre} está agotado" });
             }
 
+            // HU-05: cada pedido descuenta existencias; si no alcanzan, se rechaza y nada se guarda.
+            if (!Inventario.HayExistencias(producto, item.Cantidad))
+            {
+                return Conflict(new { error = Inventario.MensajeSinExistencias(producto) });
+            }
+
+            Inventario.Descontar(producto, item.Cantidad);
+
             pedido.Items.Add(new PedidoItem
             {
                 ProductoId = producto.Id,
