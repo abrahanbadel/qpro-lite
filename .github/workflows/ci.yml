@@ -34,6 +34,12 @@ jobs:
       - name: Verificar formato del código (lint)
         run: dotnet format --verify-no-changes --no-restore
 
+      # El paso falla si alguna dependencia tiene vulnerabilidades conocidas.
+      - name: Revisar dependencias vulnerables
+        run: |
+          dotnet list package --vulnerable --include-transitive | tee vulnerables.txt
+          ! grep -qi "has the following vulnerable packages" vulnerables.txt
+
       - name: Compilar
         run: dotnet build --no-restore --configuration Release
 
@@ -46,12 +52,18 @@ jobs:
       - name: Pruebas de integración
         run: dotnet test --no-build --configuration Release --filter "Categoria=Integracion"
 
-      - name: Reporte de cobertura
+      - name: Pruebas no funcionales (rendimiento)
+        run: dotnet test --no-build --configuration Release --filter "Categoria=NoFuncional"
+
+      # El paso falla si la cobertura de líneas baja del 70 %.
+      - name: Reporte de cobertura (mínimo 70 %)
         run: >
           dotnet test --no-build --configuration Release
           -p:CollectCoverage=true
           -p:CoverletOutputFormat=cobertura
           -p:CoverletOutput=../../coverage/
+          -p:Threshold=70
+          -p:ThresholdType=line
 
       - name: Publicar reporte de cobertura
         uses: actions/upload-artifact@v7
