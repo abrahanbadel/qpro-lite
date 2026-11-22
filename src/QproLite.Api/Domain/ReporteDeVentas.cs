@@ -11,7 +11,9 @@ public static class ReporteDeVentas
             .Where(pedido => pedido.Pagado && pedido.PagadoEn.HasValue && DateOnly.FromDateTime(pedido.PagadoEn.Value) == fecha)
             .ToList();
         var total = pagados.Sum(pedido => CalculadoraPedido.CalcularTotal(pedido.Items));
-        var ticket = pagados.Count == 0 ? 0 : Math.Round(total / pagados.Count, 2);
-        return new ResumenDeVentas(fecha, total, pagados.Count, ticket);
+        return new ResumenDeVentas(fecha, total, pagados.Count, TicketPromedio(total, pagados.Count));
     }
+
+    private static decimal TicketPromedio(decimal total, int pedidos) =>
+        pedidos == 0 ? 0 : Math.Round(total / pedidos, 2);
 }
