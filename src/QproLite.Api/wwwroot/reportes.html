@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportes · QPro Lite</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Inicio</a>
+    <h1>Reporte de ventas</h1>
+    <p>Total vendido, pedidos cobrados y ticket promedio del día.</p>
+  </header>
+
+  <main>
+    <div class="barra">
+      <label>Fecha
+        <input type="date" id="fecha">
+      </label>
+    </div>
+    <div id="aviso" class="aviso" role="status"></div>
+    <table>
+      <tbody>
+        <tr><th>Total vendido</th><td class="num total" id="total-vendido"></td></tr>
+        <tr><th>Pedidos cobrados</th><td class="num" id="numero-pedidos"></td></tr>
+        <tr><th>Ticket promedio</th><td class="num" id="ticket-promedio"></td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer id="pie"></footer>
+  <script src="comun.js"></script>
+  <script src="reportes.js"></script>
+</body>
+</html>
