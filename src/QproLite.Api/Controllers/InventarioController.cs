@@ -35,7 +35,15 @@ public class InventarioController(AppDbContext db) : ControllerBase
         }
 
         Inventario.Reponer(producto, ajuste.Stock);
-        await db.SaveChangesAsync();
+        try
+        {
+            await db.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return Conflict(new { error = "Las existencias cambiaron. Consulta el inventario antes de reponer." });
+        }
+
         return Ok(Respuesta(producto));
     }
 
