@@ -2,50 +2,31 @@ namespace QproLite.Api.Domain;
 
 public static class Inventario
 {
-    public static bool HayExistencias(Producto producto, int cantidad)
-    {
-        if (producto.Stock >= cantidad)
-        {
-            return true;
-        }
+    /// <summary>Con estas existencias o menos, el producto aparece con alerta en el inventario.</summary>
+    public const int UmbralDeStockBajo = 5;
 
-        return false;
-    }
+    public static bool HayExistencias(Producto producto, int cantidad) => producto.Stock >= cantidad;
 
+    public static bool TieneStockBajo(Producto producto) => producto.Stock <= UmbralDeStockBajo;
+
+    /// <summary>Descuenta las unidades vendidas; el producto queda agotado cuando llega a cero.</summary>
     public static void Descontar(Producto producto, int cantidad)
     {
-        if (producto.Stock < cantidad)
+        if (!HayExistencias(producto, cantidad))
         {
-            throw new InvalidOperationException("Solo quedan " + producto.Stock + " unidades de " + producto.Nombre);
+            throw new InvalidOperationException(MensajeSinExistencias(producto));
         }
 
-        producto.Stock = producto.Stock - cantidad;
-        if (producto.Stock == 0)
-        {
-            producto.Disponible = false;
-        }
+        Reponer(producto, producto.Stock - cantidad);
     }
 
-    public static bool TieneStockBajo(Producto producto)
-    {
-        if (producto.Stock <= 5)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
+    /// <summary>Fija las existencias del producto y actualiza su disponibilidad en la carta.</summary>
     public static void Reponer(Producto producto, int existencias)
     {
         producto.Stock = existencias;
-        if (existencias > 0)
-        {
-            producto.Disponible = true;
-        }
-        else
-        {
-            producto.Disponible = false;
-        }
+        producto.Disponible = existencias > 0;
     }
+
+    public static string MensajeSinExistencias(Producto producto) =>
+        $"Solo quedan {producto.Stock} unidades de {producto.Nombre}";
 }
