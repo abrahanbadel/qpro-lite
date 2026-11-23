@@ -70,6 +70,21 @@ public class ReportesFuncionalTests
     }
 
     [Fact]
+    public async Task Una_venta_de_la_noche_cuenta_en_el_dia_de_Colombia_y_no_en_el_dia_siguiente()
+    {
+        using var api = new ApiFactory();
+        // 7:30 p. m. del 13 de noviembre en Colombia (UTC-5) = 00:30 del 14 de noviembre en UTC.
+        RegistrarVenta(api, 50000, new DateTime(2026, 11, 14, 0, 30, 0, DateTimeKind.Utc));
+        var http = api.CreateClient();
+
+        var del13 = await http.GetFromJsonAsync<ReporteDto>("/api/reportes/ventas?fecha=2026-11-13");
+        var del14 = await http.GetFromJsonAsync<ReporteDto>("/api/reportes/ventas?fecha=2026-11-14");
+
+        Assert.Equal(50000, del13!.TotalVendido);
+        Assert.Equal(0, del14!.TotalVendido);
+    }
+
+    [Fact]
     public async Task Sin_fecha_el_reporte_corresponde_al_dia_de_hoy()
     {
         using var api = new ApiFactory();

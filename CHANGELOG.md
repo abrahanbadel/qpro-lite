@@ -2,6 +2,13 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado semántico.
 
+## [1.0.1] - Hotfix
+
+### Corregido
+
+- El reporte de ventas usaba la fecha en UTC: las ventas cobradas después de las 7:00 p. m. aparecían en el día
+  siguiente. Ahora el día de ventas se calcula con la hora de Colombia (UTC-5).
+
 ## [1.0.0] - Sprint 2
 
 ### Agregado
