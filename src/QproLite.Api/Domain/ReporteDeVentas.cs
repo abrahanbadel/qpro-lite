@@ -1,19 +1,18 @@
 namespace QproLite.Api.Domain;
 
-public record ResumenDeVentas(DateOnly Fecha, decimal TotalVendido, int NumeroDePedidos, decimal TicketPromedio);
+public record ResumenDeVentas(decimal TotalVendido, int NumeroDePedidos, decimal TicketPromedio);
 
 public static class ReporteDeVentas
 {
-    /// <summary>Resume los pedidos pagados en la fecha indicada, según la fecha guardada en PagadoEn.</summary>
-    public static ResumenDeVentas Resumir(IEnumerable<Pedido> pedidos, DateOnly fecha)
+    /// <summary>Resume las ventas a partir de los pedidos pagados de un día.</summary>
+    public static ResumenDeVentas Resumir(IEnumerable<Pedido> pedidosPagados)
     {
-        var pagados = pedidos
-            .Where(pedido => pedido.Pagado && pedido.PagadoEn.HasValue && DateOnly.FromDateTime(pedido.PagadoEn.Value) == fecha)
-            .ToList();
-        var total = pagados.Sum(pedido => CalculadoraPedido.CalcularTotal(pedido.Items));
-        return new ResumenDeVentas(fecha, total, pagados.Count, TicketPromedio(total, pagados.Count));
+        var totales = pedidosPagados.Select(pedido => CalculadoraPedido.CalcularTotal(pedido.Items)).ToList();
+        var totalVendido = totales.Sum();
+        return new ResumenDeVentas(totalVendido, totales.Count, TicketPromedio(totalVendido, totales.Count));
     }
 
-    private static decimal TicketPromedio(decimal total, int pedidos) =>
-        pedidos == 0 ? 0 : Math.Round(total / pedidos, 2);
+    // Un día sin ventas no debe producir una división entre cero.
+    private static decimal TicketPromedio(decimal totalVendido, int numeroDePedidos) =>
+        numeroDePedidos == 0 ? 0 : Math.Round(totalVendido / numeroDePedidos, MidpointRounding.AwayFromZero);
 }

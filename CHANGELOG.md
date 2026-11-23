@@ -2,6 +2,20 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado semántico.
 
+## [1.0.0] - Sprint 2
+
+### Agregado
+
+- HU-04: cuenta de la mesa con propina sugerida del 10 % y registro del pago.
+- HU-05: descuento de existencias al registrar pedidos, agotados automáticos y alerta de stock bajo.
+- HU-06: reporte de ventas del día con total vendido, pedidos cobrados y ticket promedio.
+- Prueba no funcional de rendimiento básico de la carta.
+- Plantilla de pull request con lista de verificación.
+
+### Cambiado
+
+- El pipeline exige una cobertura de líneas mínima del 70 % y revisa dependencias vulnerables.
+
 ## [0.1.0] - Sprint 1
 
 ### Agregado

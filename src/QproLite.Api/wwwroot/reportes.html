@@ -14,17 +14,17 @@
   </header>
 
   <main>
+    <div class="barra">
+      <label>Fecha
+        <input type="date" id="fecha">
+      </label>
+    </div>
     <div id="aviso" class="aviso" role="status"></div>
-    <form id="consulta" class="barra">
-      <label>Fecha <input type="date" id="fecha" required></label>
-      <button type="submit">Consultar</button>
-    </form>
     <table>
-      <thead>
-        <tr><th>Total vendido</th><th>Pedidos cobrados</th><th>Ticket promedio</th></tr>
-      </thead>
       <tbody>
-        <tr><td id="total" class="total"></td><td id="pedidos"></td><td id="ticket"></td></tr>
+        <tr><th>Total vendido</th><td class="num total" id="total-vendido"></td></tr>
+        <tr><th>Pedidos cobrados</th><td class="num" id="numero-pedidos"></td></tr>
+        <tr><th>Ticket promedio</th><td class="num" id="ticket-promedio"></td></tr>
       </tbody>
     </table>
   </main>
